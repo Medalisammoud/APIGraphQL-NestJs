@@ -11,6 +11,7 @@ import { AppResolver } from './app.resolver';
 // import { AuthModule } from './auth/auth.module';
 // import { UserModule } from './user/user.module';
 // import { CommentModule } from './comment/comment.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -33,10 +34,7 @@ import { AppResolver } from './app.resolver';
         synchronize: true,
       }),
     }),
-    // ArticleModule,
-    // AuthModule,
-    // UserModule,
-    // CommentModule,
+    ArticleModule,
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
