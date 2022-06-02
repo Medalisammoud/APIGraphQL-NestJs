@@ -23,6 +23,7 @@ type ArticleUpdateOutput {
 
 type Query {
   sayHello: String!
+  articleList: [Article!]!
 }
 
 type Mutation {

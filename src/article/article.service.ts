@@ -34,4 +34,8 @@ private readonly articleRepository: Repository<Article>
         await article.remove();
         return { articleId};
     }
+
+    async articleList(): Promise<Article[]>{
+        return this.articleRepository.find();
+    }
 }
