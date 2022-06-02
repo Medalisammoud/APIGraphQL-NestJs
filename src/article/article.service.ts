@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SortDirection } from 'src/pagination/dto/pagination.dto';
 import { Repository } from 'typeorm';
 import { ArticleCreateInput, ArticleCreateOutput } from './dto/article.create.dto';
 import { ArticleDeleteOutput } from './dto/article.delete.dto';
+import { ArticlesPagination, ArticlesPaginationArgs } from './dto/article.pagination.dto';
 import { ArticleUpdateInput, ArticleUpdateOutput } from './dto/article.update.dto';
 import { Article } from './models/article.model';
 
@@ -32,10 +34,17 @@ private readonly articleRepository: Repository<Article>
         Promise<ArticleDeleteOutput> {
         const article = await this.articleRepository.findOneOrFail(articleId);
         await article.remove();
-        return { articleId};
+        return { articleId };
     }
 
-    async articleList(): Promise<Article[]>{
-        return this.articleRepository.find();
+    async articlesPagination(args: ArticlesPaginationArgs): Promise<ArticlesPagination>{
+        const [nodes, totalCount] = await this.articleRepository.findAndCount({
+            skip: args.skip,
+            take: args.take,
+            order: {
+                createdAt: args.sortBy?.createdAt === SortDirection.ASC? 'ASC' : 'DESC'
+            }
+        });
+        return { nodes, totalCount }
     }
 }

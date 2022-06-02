@@ -1,5 +1,6 @@
-import { Query, Resolver } from "@nestjs/graphql";
+import { Args, Query, Resolver } from "@nestjs/graphql";
 import { ArticleService } from "../article.service";
+import { ArticlesPagination, ArticlesPaginationArgs } from "../dto/article.pagination.dto";
 import { Article } from "../models/article.model";
 
 @Resolver(Article)
@@ -8,8 +9,8 @@ export class ArticleQueriesResolver {
         private readonly articleService: ArticleService,
     ){}
 
-    @Query(() => [Article])
-    async articleList(){
-        return this.articleService.articleList();
+    @Query(() => ArticlesPagination)
+    async articlesPagination(@Args() args: ArticlesPaginationArgs){
+        return this.articleService.articlesPagination(args);
     }
 }
